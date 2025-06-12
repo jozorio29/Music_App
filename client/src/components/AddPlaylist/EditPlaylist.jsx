@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { server } from "../../constants/config";
 
 const EditPlaylist = () => {
   const { id } = useParams(); // Obtiene el id de la playlist desde la URL
@@ -13,9 +14,7 @@ const EditPlaylist = () => {
   useEffect(() => {
     const fetchPlaylist = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/playlist/${id}`
-        );
+        const response = await axios.get(`${server}/api/playlist/${id}`);
         setPlaylist(response.data);
       } catch (error) {
         console.log("Error al cargar la playlist:", error);
@@ -49,7 +48,7 @@ const EditPlaylist = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`http://localhost:8080/api/playlist/${id}`, playlist);
+      await axios.put(`${server}/api/playlist/${id}`, playlist);
       navigate(`/playlist/${id}`); // Redirige a la página de detalles de la playlist después de guardar
     } catch (error) {
       console.log("Error al guardar la playlist:", error);
@@ -61,7 +60,9 @@ const EditPlaylist = () => {
       <div className="card p-4 shadow rounded">
         <h1 className="text-center">Editar Playlist</h1>
         <div className="mb-3">
-          <label htmlFor="name" className="form-label">Nombre de la Playlist</label>
+          <label htmlFor="name" className="form-label">
+            Nombre de la Playlist
+          </label>
           <input
             type="text"
             className="form-control"
@@ -72,7 +73,9 @@ const EditPlaylist = () => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="newSong" className="form-label">Agregar Canción</label>
+          <label htmlFor="newSong" className="form-label">
+            Agregar Canción
+          </label>
           <input
             type="text"
             className="form-control"
@@ -86,7 +89,10 @@ const EditPlaylist = () => {
         </div>
         <ul className="list-group mb-3">
           {playlist.artist.map((song, index) => (
-            <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+            <li
+              key={index}
+              className="list-group-item d-flex justify-content-between align-items-center"
+            >
               {editingSongIndex === index ? (
                 <>
                   <input
@@ -127,7 +133,10 @@ const EditPlaylist = () => {
             </li>
           ))}
         </ul>
-        <button className="btn btn-success w-30 d-block mx-auto mt-3" onClick={handleSave}>
+        <button
+          className="btn btn-success w-30 d-block mx-auto mt-3"
+          onClick={handleSave}
+        >
           Guardar Cambios
         </button>
       </div>

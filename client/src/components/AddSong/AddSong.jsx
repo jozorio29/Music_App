@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
+import { server } from "../../constants/config";
 
 const validationSchema = Yup.object({
-    title: Yup.string().required("Title is required"),
-    artist: Yup.string().required("Artist is required"),
-    genre: Yup.string().required("Genero is required"),
-    album: Yup.string().required("Album is required"),
-  });
+  title: Yup.string().required("Title is required"),
+  artist: Yup.string().required("Artist is required"),
+  genre: Yup.string().required("Genero is required"),
+  album: Yup.string().required("Album is required"),
+});
 
 const AddSong = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const AddSong = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await axios.post("http://localhost:8080/api/add-musicas", values);
+        await axios.post(`${server}/api/add-musicas`, values);
         navigate("/musicas");
       } catch (error) {
         console.log(error);

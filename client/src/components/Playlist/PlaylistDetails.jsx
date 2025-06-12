@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { server } from "../../constants/config";
 
 const PlaylistDetails = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [playlist, setPlaylist] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -11,9 +12,7 @@ const PlaylistDetails = () => {
   useEffect(() => {
     const fetchPlaylist = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/playlist/${id}`
-        );
+        const response = await axios.get(`${server}/api/playlist/${id}`);
         setPlaylist(response.data);
         setError(null);
       } catch (error) {
@@ -46,10 +45,7 @@ const PlaylistDetails = () => {
             <h1 className="card-title">
               {"Album: " + (playlist.name || "Nombre de la playlist")}
             </h1>
-            <button
-              className="btn btn-warning"
-              onClick={handleEdit}
-            >
+            <button className="btn btn-warning" onClick={handleEdit}>
               Editar
             </button>
           </div>
@@ -59,9 +55,7 @@ const PlaylistDetails = () => {
             </p>
             <ul>
               {artists.length > 0 ? (
-                artists.map((artist, index) => (
-                  <li key={index}>{artist}</li>
-                ))
+                artists.map((artist, index) => <li key={index}>{artist}</li>)
               ) : (
                 <li>No hay artistas en esta playlist</li>
               )}

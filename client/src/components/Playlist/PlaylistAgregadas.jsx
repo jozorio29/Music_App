@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { server } from "../../constants/config";
 
 const PlaylistAgregadas = ({ playlist, onDeletePlaylist }) => {
   const [searchTerm, setSearchTerm] = useState(""); // Estado para manejar el término de búsqueda
 
   const handleDeletePlaylist = async (playlistId) => {
     try {
-      await axios.delete(`http://localhost:8080/api/playlist/${playlistId}`);
+      await axios.delete(`${server}/api/playlist/${playlistId}`);
       onDeletePlaylist(playlistId); // Llama a la función para actualizar la lista de playlists
     } catch (error) {
       console.log("Error al eliminar la playlist:", error);

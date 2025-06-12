@@ -4,6 +4,7 @@ import SongListWithCheck from "./SongListWithCheck";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { server } from "../../constants/config";
 
 const AddPlaylist = ({ onPlaylistCreated }) => {
   const [songs, setSongs] = useState([]);
@@ -12,7 +13,7 @@ const AddPlaylist = ({ onPlaylistCreated }) => {
   useEffect(() => {
     const fetchSongs = async () => {
       try {
-        const { data } = await axios.get("http://localhost:8080/api/musicas");
+        const { data } = await axios.get(`${server}/api/musicas`);
         setSongs(data);
       } catch (error) {
         console.error("Error fetching songs:", error);
@@ -35,7 +36,7 @@ const AddPlaylist = ({ onPlaylistCreated }) => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await axios.post("http://localhost:8080/api/add-playlist", values);
+        await axios.post(`${server}/api/add-playlist`, values);
         onPlaylistCreated();
         navigate("/playlist");
       } catch (error) {
