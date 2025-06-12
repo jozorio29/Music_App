@@ -12,7 +12,9 @@ const PlaylistDetails = () => {
   useEffect(() => {
     const fetchPlaylist = async () => {
       try {
-        const response = await axios.get(`${server}/api/playlist/${id}`);
+        const response = await axios.get(`${server}/api/playlist/${id}`, {
+          withCredentials: true,
+        });
         setPlaylist(response.data);
         setError(null);
       } catch (error) {

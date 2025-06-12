@@ -13,7 +13,9 @@ const AddPlaylist = ({ onPlaylistCreated }) => {
   useEffect(() => {
     const fetchSongs = async () => {
       try {
-        const { data } = await axios.get(`${server}/api/musicas`);
+        const { data } = await axios.get(`${server}/api/musicas`, {
+          withCredentials: true,
+        });
         setSongs(data);
       } catch (error) {
         console.error("Error fetching songs:", error);
@@ -25,9 +27,11 @@ const AddPlaylist = ({ onPlaylistCreated }) => {
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Playlist name is required"),
-    artist: Yup.array().of(Yup.string()).min(1, "At least one artist is required"), // Validación para un array de nombres de canciones
+    artist: Yup.array()
+      .of(Yup.string())
+      .min(1, "At least one artist is required"), // Validación para un array de nombres de canciones
   });
-  
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -36,7 +40,9 @@ const AddPlaylist = ({ onPlaylistCreated }) => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await axios.post(`${server}/api/add-playlist`, values);
+        await axios.post(`${server}/api/add-playlist`, values, {
+          withCredentials: true,
+        });
         onPlaylistCreated();
         navigate("/playlist");
       } catch (error) {
@@ -46,7 +52,7 @@ const AddPlaylist = ({ onPlaylistCreated }) => {
   });
 
   const handleSongSelect = (selected) => {
-    const selectedSongNames = selected.map(song => song.title);  // Mapea las canciones seleccionadas a sus nombres
+    const selectedSongNames = selected.map((song) => song.title); // Mapea las canciones seleccionadas a sus nombres
     formik.setFieldValue("artist", selectedSongNames); // Actualiza Formik con el array de nombres de canciones
   };
 
@@ -72,7 +78,9 @@ const AddPlaylist = ({ onPlaylistCreated }) => {
         <SongListWithCheck songs={songs} handleSongSelect={handleSongSelect} />
 
         {formik.touched.artist && formik.errors.artist && (
-          <div className="text-danger text-center mt-3">{formik.errors.artist}</div>
+          <div className="text-danger text-center mt-3">
+            {formik.errors.artist}
+          </div>
         )}
 
         <div className="text-center mt-3">

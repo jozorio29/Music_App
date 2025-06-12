@@ -16,7 +16,9 @@ const App = () => {
 
   const fetchLista = async () => {
     try {
-      const response = await axios.get(`${server}/api/playlist`);
+      const response = await axios.get(`${server}/api/playlist`, {
+        withCredentials: true,
+      });
       setLista(response.data);
     } catch (error) {
       console.log(error);

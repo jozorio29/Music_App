@@ -25,7 +25,9 @@ const AddSong = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await axios.post(`${server}/api/add-musicas`, values);
+        await axios.post(`${server}/api/add-musicas`, values, {
+          withCredentials: true,
+        });
         navigate("/musicas");
       } catch (error) {
         console.log(error);

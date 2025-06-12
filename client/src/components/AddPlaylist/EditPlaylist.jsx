@@ -14,7 +14,9 @@ const EditPlaylist = () => {
   useEffect(() => {
     const fetchPlaylist = async () => {
       try {
-        const response = await axios.get(`${server}/api/playlist/${id}`);
+        const response = await axios.get(`${server}/api/playlist/${id}`, {
+          withCredentials: true,
+        });
         setPlaylist(response.data);
       } catch (error) {
         console.log("Error al cargar la playlist:", error);
@@ -48,7 +50,9 @@ const EditPlaylist = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`${server}/api/playlist/${id}`, playlist);
+      await axios.put(`${server}/api/playlist/${id}`, playlist, {
+        withCredentials: true,
+      });
       navigate(`/playlist/${id}`); // Redirige a la página de detalles de la playlist después de guardar
     } catch (error) {
       console.log("Error al guardar la playlist:", error);

@@ -9,7 +9,9 @@ const Songs = () => {
   useEffect(() => {
     const fetchSongs = async () => {
       try {
-        const response = await axios.get("${server}/api/musicas");
+        const response = await axios.get(`${server}/api/musicas`, {
+          withCredentials: true,
+        });
         setSongs(response.data);
       } catch (error) {
         console.log(error);
@@ -21,7 +23,9 @@ const Songs = () => {
 
   const eliminarCancion = async (id) => {
     try {
-      await axios.delete(`${server}/api/musicas/${id}`);
+      await axios.delete(`${server}/api/musicas/${id}`, {
+        withCredentials: true,
+      });
       setSongs(songs.filter((song) => song._id !== id));
     } catch (error) {
       console.log(error);

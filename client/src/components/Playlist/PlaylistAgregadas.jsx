@@ -8,7 +8,9 @@ const PlaylistAgregadas = ({ playlist, onDeletePlaylist }) => {
 
   const handleDeletePlaylist = async (playlistId) => {
     try {
-      await axios.delete(`${server}/api/playlist/${playlistId}`);
+      await axios.delete(`${server}/api/playlist/${playlistId}`, {
+        withCredentials: true,
+      });
       onDeletePlaylist(playlistId); // Llama a la función para actualizar la lista de playlists
     } catch (error) {
       console.log("Error al eliminar la playlist:", error);
